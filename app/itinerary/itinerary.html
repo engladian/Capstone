@@ -1,0 +1,19 @@
+<div class="row text-center text-success">
+    <div ng-repeat="route in itinerary.routesArray">
+        {{route.name}} {{route.duration}} {{route.stops.length}} {{route.indicativePrice.price + route.indicativePrice.currency}}
+
+    </div>
+
+</div>
+<div class="row">
+    <ui-gmap-google-map center="map.center" zoom="map.zoom">
+        <ui-gmap-markers models='markers'
+                         idKey='markers.id'
+                         coords="'coords'"
+                         name="markers.data"
+                         fit="true">
+        </ui-gmap-markers>
+    </ui-gmap-google-map>
+</div>
+       
+
