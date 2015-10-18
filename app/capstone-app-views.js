@@ -1,53 +1,32 @@
 ﻿"use strict";
 var controllersModule = angular.module('capstoneApp.Controllers', ['ngRoute', 'uiGmapgoogle-maps']);
 
-
-
-
-
 //Shared Routing
-controllersModule.config(['$routeProvider', 'uiGmapGoogleMapApiProvider', function ($routeProvider, uiGmapGoogleMapApiProvider) {
-    //Google key
-    //AIzaSyBGA8ddvnm_xryH6iqKt_M-Iv7mVyXD9WI
-
+controllersModule.config(['$routeProvider', 'uiGmapGoogleMapApiProvider',
+function ($routeProvider, uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
         key: 'AIzaSyBGA8ddvnm_xryH6iqKt_M-Iv7mVyXD9WI',
-        v: '3.20', //defaults to latest 3.X anyhow
+        v: '3.20',
         libraries: 'weather,geometry,visualization'
     });
 
-
     $routeProvider
          .when('/search', {
-             templateUrl: 'search/search.html'
+             templateUrl: 'search/search.html',
+             controller: 'SearchController',
+             controllerAs: 'search',
+             bindToController: true
          })
-         .when('/itinerary', {
+         .when('/itinerary/:start/:end', {
              templateUrl: 'itinerary/itinerary.html',
-             controller: 'ItineraryController as itinerary',
+             controller: 'ItineraryController',
+             controllerAs: 'itinerary',
              resolve: {
-                 itineraryOptions: ['ItineraryService', function (ItineraryService) {
-                     return ItineraryService.getItineraryOptions('London', 'Paris');
+                 itineraryOptions: ['ItineraryService', '$route', function (ItineraryService, $route) {
+                     return ItineraryService.getItineraryOptions($route.current.params.start, $route.current.params.end);
                  }]
              }
          })
-        //.when('/countries/:country/:capital', {
-        //    templateUrl: 'countrydetails/countrydetails.html',
-        //    controller: 'CountryDetailsController',
-        //    resolve: {
-        //        capitalPop: ['countriesService', '$route', function (countriesService, $route) {
-        //            var capital = $route.current.params.capital;
-        //            var countryCode = $route.current.params.country;
-        //            return countriesService.getCapitalPopulation(countryCode, capital);
-        //        }],
-        //        neighbours: ['countriesService', '$route', function (countriesService, $route) {
-        //            var countryCode = $route.current.params.country;
-        //            return countriesService.getNeighbours(countryCode);
-        //        }],
-        //        pickedCountryCode: ['$route', function($route) {
-        //            return $route.current.params.country;
-        //        }]
-        //    }
-        //})
         .otherwise('/search');
 }]);
 
@@ -68,7 +47,7 @@ controllersModule.factory('ItineraryService', ['$http', function ($http) {
 
 controllersModule.factory('MapService', ['uiGmapGoogleMapApi', function (uiGmapGoogleMapApi) {
     return {
-        getGoogleMap: function() {
+        getGoogleMap: function () {
             var promise = uiGmapGoogleMapApi;
             promise.success(function (maps) {
                 return maps;

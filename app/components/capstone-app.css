@@ -1,8 +1,9 @@
 ﻿html, body {
     height: 70vh;
     margin: 0;
-    padding:0;
+    padding: 0;
 }
+
 .mainheader {
     font-size: 70px;
     font-weight: bold;
@@ -15,13 +16,20 @@
 
 .angular-google-map-container {
     height: 400px;
+}
 
+.mapBox {
+    position: fixed;
+    top: 120px;
+    left: 710px;
+    float: right;
 }
 
 .loading {
     position: relative;
     height: 100%;
 }
+
     .loading:before {
         position: absolute;
         content: "";
@@ -66,5 +74,45 @@
 }
 
     .animate-view.ng-leave.ng-leave-active {
+        opacity: 0;
+    }
+
+
+.segments {
+    opacity: 1;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+    cursor: pointer;
+}
+
+    .segments.ng-show {
+        opacity: 0;
+    }
+
+.stops {
+    opacity: 1;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+    cursor: pointer;
+}
+
+    .stops.ng-show {
+        opacity: 0;
+    }
+
+.routes {
+    opacity: 1;
+    -moz-transition: 0.5s linear all;
+    -o-transition: 0.5s linear all;
+    -webkit-transition: 0.5s linear all;
+    transition: 0.5s linear all;
+    cursor: pointer;
+}
+
+    .routes.ng-show {
         opacity: 0;
     }

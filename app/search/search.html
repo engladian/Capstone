@@ -1,8 +1,19 @@
-﻿<div class="row">
+﻿<div class="row" style="background-color: aliceblue">
+    <form novalidate>
+        <div class="col-sm-4 col-lg-offset-4 text-right">
+            <label for="start">From:</label>
+            <input type="text" name="start" id="start" ng-model="search.start"/><br/>
+            <label for="end">To:</label>
+            <input type="text" name="end" id="end" ng-model="search.end" />     
+        </div>
+        <strong>Where would you like to</strong>
+        <button type="button" ng-click="search.startSearch()" class="btn btn-lg btn-primary">GO</button>
+    </form>
+</div>
+<div class="row">
     <div class="col-sm-6 col-sm-offset-3" style="font-size:20px;">
         <p>
-            Intro text blah blah. This is some random text that would give instructions.
-            I could write some more but I cannot see the point.
+            Select where you would like to go...
         </p>
     </div>
 </div>

@@ -1,46 +1,52 @@
 ﻿"use strict";
 controllersModule.controller('ItineraryController',
-    ['$scope', 'itineraryOptions', 'MapService',
-        function ($scope, itineraryOptions, MapService) {
-            // console.log(itineraryOptions.data);
+['$scope', 'itineraryOptions', 'MapService',
+function ($scope, itineraryOptions, MapService) {
+    console.log(itineraryOptions.data);
 
-            var viewModel = this;
-            viewModel.routesArray = itineraryOptions.data.routes;
+    var viewModel = this;
+    viewModel.routesArray = itineraryOptions.data.routes;
+    viewModel.selectedRouteIndex = 0;
+    viewModel.selectedSegmentIndex = 0;
 
-            //starting with the first route
-            var startMarker = viewModel.routesArray[0].stops[0];
-            var endMarker = viewModel.routesArray[0].stops[1];
+    //starting with the first route
+    var startMarker = viewModel.routesArray[0].stops[0];
+    var endMarker = viewModel.routesArray[0].stops[1];
 
-            $scope.markers = [
-                {
-                    id: startMarker.code,
-                    coords: {
-                        latitude: startMarker.pos.split(',')[0],
-                        longitude: startMarker.pos.split(',')[1]
-                    },
-                    options: { labelContent : startMarker.name}
-                },
-                {
-                    id: endMarker.code,
-                    coords: {
-                        latitude: endMarker.pos.split(',')[0],
-                        longitude: endMarker.pos.split(',')[1]
-                    },
-                    options: { labelContent: endMarker.name }
-                }];
+    $scope.markers = [
+    {
+        id: startMarker.code,
+        coords: getPositionObj(startMarker.pos),
+        options: { labelContent: startMarker.name }
+    },
+    {
+        id: endMarker.code,
+        coords: getPositionObj(endMarker.pos),
+        options: { labelContent: endMarker.name }
 
-            console.log($scope.markers);
+    }];
 
-            //Has to be scope.
-            $scope.map = {
-                center: {
-                    latitude: startMarker.pos.split(',')[0],
-                    longitude: startMarker.pos.split(',')[1]
-                }, zoom: 8
-            };
+    //Has to be scope.
+    $scope.map = {
+        center: getPositionObj(startMarker.pos),
+        zoom: 8
+    };
 
-            console.log($scope.map);
+    console.log($scope.map);
 
-            //Map service returns a promise.
-            var baseMap = function () { return MapService.getGoogleMap(); }
-        }]);
+    //Map service returns a promise.
+    var baseMap = function () { return MapService.getGoogleMap(); }
+}]);
+
+
+function getPositionObj(pos) {
+    var posArray = pos.split(',');
+    return {
+        latitude: posArray[0],
+        longitude: posArray[1]
+    }
+}
+
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});

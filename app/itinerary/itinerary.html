@@ -1,19 +1,79 @@
-<div class="row text-center text-success">
-    <div ng-repeat="route in itinerary.routesArray">
-        {{route.name}} {{route.duration}} {{route.stops.length}} {{route.indicativePrice.price + route.indicativePrice.currency}}
-
+<div class="row" style="background-color: burlywood;">
+    <div class="col-sm-7">
+        <div class="row" style="background-color:bisque; margin-bottom: 5px;">
+            <div class="col-sm-3 text-left">
+                <h3>Routes</h3>
+            </div>
+            <div class="col-sm-3 text-left">
+                <h3>Segments</h3>
+            </div>
+            <div class="col-sm-3 text-left">
+                <h3>Stops</h3>
+            </div>
+        </div>
+        <div class="row" ng-repeat="route in itinerary.routesArray track by $index">
+            <div class="col-sm-3">
+                <table class="table table-bordered table-hover" style="margin: 0;">
+                    <tr class="routes">
+                        <td data-toggle="tooltip" 
+                            data-placement="top" 
+                            title="
+                        Distance: {{route.distance}} miles Duration: {{route.duration}} minutes Approx Price: {{route.indicativePrice.price + route.indicativePrice.currency}}"
+                            ng-click="$parent.selectedRouteIndex=$index">
+                            {{route.name}}<img src="./components/arrow.png" 
+                                               style="height: 30px; 
+                                                      width: 30px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-3">
+                <table class="table table-bordered table-hover" style="margin: 0;">
+                    <tr ng-repeat="segment in route.segments track by $index"
+                        class="segments">
+                        <td ng-click="$parent.selectedSegmentIndex=$index"
+                            ng-show="selectedRouteIndex === $parent.$index
+                            && segment.sName != null">
+                            <span style="background-color:cornsilk;">
+                            {{segment.kind | uppercase}} 
+                            </span> <br />
+                            {{segment.sName + ' to ' + segment.tName}} <br />
+                           <img src="./components/arrow.png" style="height: 30px; width: 30px;" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-sm-6">
+                <div ng-repeat="segment in route.segments"
+                     ng-show="segment.sName != null">
+                    <table class="table table-bordered table-hover" style="margin: 0;">
+                        <tr class="stops"
+                            ng-repeat="stop in segment.stops">
+                            <td ng-show="selectedSegmentIndex === $parent.$index
+                                         && selectedRouteIndex === $parent.$parent.$index">
+                                <span style="background-color:cornsilk;">
+                                    {{stop.kind | uppercase}}
+                                </span> <br />                                 
+                                {{stop.name}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
+    <div class="col-sm-5 pull-right mapBox">
+        <ui-gmap-google-map center="map.center" zoom="map.zoom">
+            <ui-gmap-markers models='markers'
+                             idKey='markers.id'
+                             coords="'coords'"
+                             fit="true">
+            </ui-gmap-markers>
+            <ui-gmap-polygons models='paths'
+                              idKey='paths.id'
+                              coords="'coords'"
+                              fit="true">
+            </ui-gmap-polygons>
+        </ui-gmap-google-map>
+    </div>
 </div>
-<div class="row">
-    <ui-gmap-google-map center="map.center" zoom="map.zoom">
-        <ui-gmap-markers models='markers'
-                         idKey='markers.id'
-                         coords="'coords'"
-                         name="markers.data"
-                         fit="true">
-        </ui-gmap-markers>
-    </ui-gmap-google-map>
-</div>
-       
-

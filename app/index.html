@@ -8,18 +8,14 @@
     <!-- endbuild-->
 </head>
 <body ng-app="capstoneApp" ng-class="{loading: isLoading}">
-    <!--for bootstrap-->
-    <div class="container" style="min-height:100%; margin: auto;">
-        <div class="row text-right mainheader" ng-controller="SearchController" style="background-color:aliceblue">
-            <a href="#/itinerary" class="btn btn-primary btn-lg" role="button">GO</a>
+    <!--Bootstrap container-->
+    <div class="container-fluid" style="min-height:100%; margin: auto;">
+        <div class="animate-view-container">
+            <div ng-view class="animate-view">
+                <!--Dynamic partial views here-->
+            </div>
         </div>
     </div>
-    <div class="animate-view-container">
-        <div ng-view class="animate-view">
-            <!--Dynamic partial views here-->
-        </div>
-    </div>
-
     <script src="//maps.googleapis.com/maps/api/js?sensor=false"></script>
 
     <!-- build:js ./_assets/combined.js -->
@@ -36,9 +32,6 @@
     <script src="./capstone-app-views.js"></script>
     <script src="./search/search.js"></script>
     <script src="./itinerary/itinerary.js"></script>
-
-
-
     <!-- endbuild -->
 </body>
 </html>
